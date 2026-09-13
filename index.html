@@ -202,8 +202,8 @@
     ====================================== */
     .play-button {
         position: absolute;
-        bottom: 80px;
-        left: 220px;
+        bottom: 130px;
+        left: 50px;
         z-index: 10;
         display: flex;
         align-items: center;
@@ -216,7 +216,7 @@
         padding: 0;
         cursor: pointer;
         transition: transform 0.25s ease;
-        width: 140px;
+        width: 200px;
         height: 50px;
     }
 
@@ -235,8 +235,8 @@
         border: none;
         padding: 0;
         cursor: pointer;
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         transition: transform 0.25s ease;
         display: flex;
         align-items: center;
@@ -332,6 +332,60 @@
     }
 
     /* ======================================
+       MODAL TELA CHEIA TOTAL — SEM BORDAS!
+    ====================================== */
+    .game-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #000000;
+        z-index: 99999;
+        display: none;
+        flex-direction: column;
+    }
+
+    .game-modal.active {
+        display: flex;
+    }
+
+    /* BOTÃO FECHAR — FIXO NO CANTO */
+    .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: #e2231a;
+        border: none;
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 100000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 15px rgba(226, 35, 26, 0.5);
+        transition: transform 0.2s;
+    }
+
+    .close-btn:hover {
+        transform: scale(1.15);
+    }
+
+    /* IFRAME — TELA CHEIA, SEM NADA AO REDOR! */
+    .fullscreen-iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+        flex: 1;
+    }
+
+    /* ======================================
        RESPONSIVIDADE
     ====================================== */
     @media (max-width: 768px) {
@@ -362,8 +416,16 @@
             font-size: 16px;
         }
         .play-button {
-            left: 110px;
-            bottom: 50px;
+            left: 20px;
+            bottom: 80px;
+        }
+        .play-btn {
+            width: 160px;
+            height: 44px;
+        }
+        .more-btn {
+            width: 44px;
+            height: 44px;
         }
         .side-info {
             right: 20px;
@@ -422,15 +484,13 @@
   <!-- 📛 NOME DO JOGO — FICA PARADO -->
   <div class="game-name" id="game-title">DIRT 5™ | PS5</div>
 
-  <!-- ▶️ BOTÃO JOGAR + BOTÃO MAIS — AMBOS COM SVG! -->
+  <!-- ▶️ BOTÃO JOGAR + PONTINHOS -->
   <div class="play-button">
-    <button class="play-btn">
+    <button class="play-btn" id="play-game-btn">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="320" height="80">
-        <!-- Fundo azul formato pílula do PS5 -->
         <rect x="0" y="0" width="320" height="80" rx="40" fill="#00439C" />
-        <!-- Texto "Jogar" centralizado -->
         <text x="50%" y="55%" 
-              font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" 
+              font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
               font-size="26" 
               font-weight="bold" 
               fill="#FFFFFF" 
@@ -442,14 +502,24 @@
     </button>
     <button class="more-btn">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
-        <!-- Fundo azul circular do PS5 -->
         <circle cx="40" cy="40" r="38" fill="#00439C" />
-        <!-- Três pontos horizontais brancos -->
         <circle cx="26" cy="40" r="4" fill="#FFFFFF" />
         <circle cx="40" cy="40" r="4" fill="#FFFFFF" />
         <circle cx="54" cy="40" r="4" fill="#FFFFFF" />
       </svg>
     </button>
+  </div>
+
+  <!-- 🕷️ MODAL — TELA CHEIA TOTAL, SEM BORDAS! -->
+  <div class="game-modal" id="web-master-modal">
+    <button class="close-btn" id="close-modal-btn">×</button>
+    <iframe 
+      src="https://puzzio.io/game/web-master" 
+      class="fullscreen-iframe"
+      allow="autoplay; fullscreen; gamepad"
+      allowfullscreen
+      scrolling="no">
+    </iframe>
   </div>
 
   <!-- 📊 INFO LADO DIREITO — FICA TUDO PARADO -->
@@ -494,7 +564,7 @@
         { nome: "Like a Dragon™ | PS5", fundo: "assets/images/fundo-like-a-dragon.jpg", capa: "assets/images/capa-like-a-dragon.jpg", progresso: "45%", conquistas: "15/35" },
         { nome: "DIRT 5™ | PS5", fundo: "assets/images/fundo-dirt5.jpg", capa: "assets/images/capa-dirt5.jpg", progresso: "6%", conquistas: "3/21" },
         { nome: "God of War™ | PS5", fundo: "assets/images/fundo-god-of-war.jpg", capa: "assets/images/capa-god-of-war.jpg", progresso: "78%", conquistas: "24/36" },
-        { nome: "Marvel's Spider-Man™ | PS5", fundo: "assets/images/fundo-spider-man.jpg", capa: "assets/images/capa-spider-man.jpg", progresso: "32%", conquistas: "12/42" },
+        { nome: "Marvel's Spider-Man™ | PS5", fundo: "assets/images/fundo-spider-man.jpg", capa: "assets/images/capa-spider-man.jpg", progresso: "32%", conquistas: "12/42", spiderman: true },
         { nome: "Horizon Forbidden West™ | PS5", fundo: "assets/images/fundo-horizon.jpg", capa: "assets/images/capa-horizon.jpg", progresso: "55%", conquistas: "18/58" },
         { nome: "Ratchet & Clank™ | PS5", fundo: "assets/images/fundo-ratchet-clank.jpg", capa: "assets/images/capa-ratchet-clank.jpg", progresso: "20%", conquistas: "7/32" }
     ];
@@ -506,12 +576,15 @@
     const sideCover = document.getElementById('side-cover');
     const progressVal = document.getElementById('progress-val');
     const trophiesVal = document.getElementById('trophies-val');
+    const playBtn = document.getElementById('play-game-btn');
+    const modal = document.getElementById('web-master-modal');
+    const closeBtn = document.getElementById('close-modal-btn');
     
     let currentIndex = 2; // Começa no DIRT 5
 
     // 📐 CALCULA QUANTO MOVER SÓ O CARROSSEL
     function calcularDeslocamento() {
-        const capaLargura = covers[0].offsetWidth + 20; // largura + gap
+        const capaLargura = covers[0].offsetWidth + 20;
         const deslocamento = 50 - (currentIndex * capaLargura);
         return deslocamento;
     }
@@ -523,10 +596,8 @@
             if (i === currentIndex) cover.classList.add('active');
         });
 
-        // ✅ SÓ as capas deslizam — NOME, BOTÃO, FUNDO E INFO FICAM PARADOS!
         carousel.style.transform = `translateX(${calcularDeslocamento()}px)`;
 
-        // Atualiza fundo, nome, capa e progresso — SEM se mover
         const jogo = jogos[currentIndex];
         gameBg.style.backgroundImage = `url('${jogo.fundo}')`;
         gameTitle.textContent = jogo.nome;
@@ -543,6 +614,25 @@
         });
     });
 
+    // ▶️ BOTÃO JOGAR — SÓ ABRE SE FOR SPIDER-MAN!
+    playBtn.addEventListener('click', () => {
+        const jogoAtual = jogos[currentIndex];
+        if (jogoAtual.spiderman) {
+            // ✅ TELA CHEIA TOTAL — SEM BORDAS!
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        } else {
+            // ⏹️ Outros jogos
+            alert(`Iniciando ${jogoAtual.nome}...`);
+        }
+    });
+
+    // ❌ FECHAR
+    closeBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+
     // ⬅️➡️ DESLIZAR NO CELULAR
     let touchStartX = 0;
     document.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
@@ -557,7 +647,7 @@
         }
     });
 
-    // ⌨️ SETAS DO TECLADO
+    // ⌨️ SETAS + ESC para fechar
     document.addEventListener('keydown', e => {
         if (e.key === 'ArrowRight') {
             currentIndex = (currentIndex + 1) % jogos.length;
@@ -565,14 +655,15 @@
         } else if (e.key === 'ArrowLeft') {
             currentIndex = (currentIndex - 1 + jogos.length) % jogos.length;
             atualizarCarrossel();
+        } else if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeBtn.click();
         }
     });
 
-    // Inicializa na carga
+    // Inicializa
     window.addEventListener('load', atualizarCarrossel);
     window.addEventListener('resize', atualizarCarrossel);
   </script>
 
 </body>
 </html>
-
