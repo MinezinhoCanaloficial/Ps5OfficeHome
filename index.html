@@ -332,7 +332,7 @@
     }
 
     /* ======================================
-       MODAL TELA CHEIA TOTAL — SEM BORDAS!
+       MODAL TELA CHEIA — SEM BORDAS!
     ====================================== */
     .game-modal {
         position: fixed;
@@ -454,7 +454,7 @@
     </div>
   </header>
 
-  <!-- 🎮 SÓ O CARROSSEL DE CAPAS SE MOVE! -->
+  <!-- 🎮 CARROSSEL COM 8 JOGOS AGORA! -->
   <div class="carousel-viewport">
     <div class="games-carousel" id="carousel">
       <div class="game-cover" data-index="0">
@@ -477,6 +477,10 @@
       </div>
       <div class="game-cover" data-index="6">
         <img src="assets/images/capa-ratchet-clank.jpg" alt="Ratchet & Clank">
+      </div>
+      <!-- 🆕 ROCKET GOAL.IO — NOVO JOGO ADICIONADO! -->
+      <div class="game-cover" data-index="7">
+        <img src="assets/images/capa-rocket-goal.jpg" alt="Rocket Goal">
       </div>
     </div>
   </div>
@@ -510,14 +514,15 @@
     </button>
   </div>
 
-  <!-- 🕷️ MODAL — TELA CHEIA TOTAL, SEM BORDAS! -->
-  <div class="game-modal" id="web-master-modal">
+  <!-- 🎮 MODAL TELA CHEIA — DINÂMICO PARA OS DOIS JOGOS! -->
+  <div class="game-modal" id="game-modal">
     <button class="close-btn" id="close-modal-btn">×</button>
     <iframe 
-      src="https://puzzio.io/game/web-master" 
+      src="" 
       class="fullscreen-iframe"
-      allow="autoplay; fullscreen; gamepad"
+      id="game-iframe"
       allowfullscreen
+      allow="autoplay; fullscreen; gamepad"
       scrolling="no">
     </iframe>
   </div>
@@ -558,15 +563,17 @@
     atualizarHoraCaceres();
     setInterval(atualizarHoraCaceres, 60000);
 
-    // 🎮 DADOS DOS 7 JOGOS
+    // 🎮 DADOS DOS 8 JOGOS — ROCKET GOAL ADICIONADO!
     const jogos = [
         { nome: "Demon's Souls™ | PS5", fundo: "assets/images/fundo-demons-souls.jpg", capa: "assets/images/capa-demons-souls.jpg", progresso: "12%", conquistas: "8/48" },
         { nome: "Like a Dragon™ | PS5", fundo: "assets/images/fundo-like-a-dragon.jpg", capa: "assets/images/capa-like-a-dragon.jpg", progresso: "45%", conquistas: "15/35" },
         { nome: "DIRT 5™ | PS5", fundo: "assets/images/fundo-dirt5.jpg", capa: "assets/images/capa-dirt5.jpg", progresso: "6%", conquistas: "3/21" },
         { nome: "God of War™ | PS5", fundo: "assets/images/fundo-god-of-war.jpg", capa: "assets/images/capa-god-of-war.jpg", progresso: "78%", conquistas: "24/36" },
-        { nome: "Marvel's Spider-Man™ | PS5", fundo: "assets/images/fundo-spider-man.jpg", capa: "assets/images/capa-spider-man.jpg", progresso: "32%", conquistas: "12/42", spiderman: true },
+        { nome: "Marvel's Spider-Man™ | PS5", fundo: "assets/images/fundo-spider-man.jpg", capa: "assets/images/capa-spider-man.jpg", progresso: "32%", conquistas: "12/42", iframeUrl: "https://jogos101.com/g/spider-man-web-shooter/embed" },
         { nome: "Horizon Forbidden West™ | PS5", fundo: "assets/images/fundo-horizon.jpg", capa: "assets/images/capa-horizon.jpg", progresso: "55%", conquistas: "18/58" },
-        { nome: "Ratchet & Clank™ | PS5", fundo: "assets/images/fundo-ratchet-clank.jpg", capa: "assets/images/capa-ratchet-clank.jpg", progresso: "20%", conquistas: "7/32" }
+        { nome: "Ratchet & Clank™ | PS5", fundo: "assets/images/fundo-ratchet-clank.jpg", capa: "assets/images/capa-ratchet-clank.jpg", progresso: "20%", conquistas: "7/32" },
+        // 🆕 ROCKET GOAL.IO
+        { nome: "Rocket Goal.io | Jogo", fundo: "assets/images/fundo-rocket-goal.jpg", capa: "assets/images/capa-rocket-goal.jpg", progresso: "—", conquistas: "—", iframeUrl: "https://rocketgoal.io" }
     ];
 
     const covers = document.querySelectorAll('.game-cover');
@@ -577,8 +584,9 @@
     const progressVal = document.getElementById('progress-val');
     const trophiesVal = document.getElementById('trophies-val');
     const playBtn = document.getElementById('play-game-btn');
-    const modal = document.getElementById('web-master-modal');
+    const modal = document.getElementById('game-modal');
     const closeBtn = document.getElementById('close-modal-btn');
+    const gameIframe = document.getElementById('game-iframe');
     
     let currentIndex = 2; // Começa no DIRT 5
 
@@ -614,23 +622,25 @@
         });
     });
 
-    // ▶️ BOTÃO JOGAR — SÓ ABRE SE FOR SPIDER-MAN!
+    // ▶️ BOTÃO JOGAR — ABRE O IFRAME DO JOGO SE TIVER!
     playBtn.addEventListener('click', () => {
         const jogoAtual = jogos[currentIndex];
-        if (jogoAtual.spiderman) {
-            // ✅ TELA CHEIA TOTAL — SEM BORDAS!
+        if (jogoAtual.iframeUrl) {
+            // ✅ Tem iframe → abre o jogo em TELA CHEIA!
+            gameIframe.src = jogoAtual.iframeUrl;
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
         } else {
-            // ⏹️ Outros jogos
+            // ⏹️ Sem iframe → mostra mensagem
             alert(`Iniciando ${jogoAtual.nome}...`);
         }
     });
 
-    // ❌ FECHAR
+    // ❌ FECHAR — LIMPA O IFRAME
     closeBtn.addEventListener('click', () => {
         modal.classList.remove('active');
         document.body.style.overflow = '';
+        gameIframe.src = ""; // Para o jogo ao fechar
     });
 
     // ⬅️➡️ DESLIZAR NO CELULAR
@@ -667,3 +677,4 @@
 
 </body>
 </html>
+
