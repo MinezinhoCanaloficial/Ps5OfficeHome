@@ -332,7 +332,7 @@
     }
 
     /* ======================================
-       MODAL TELA CHEIA — SEM BORDAS!
+       MODAL TELA CHEIA — SEM BORDAS + BLOQUEIO DE ANÚNCIOS
     ====================================== */
     .game-modal {
         position: fixed;
@@ -376,13 +376,16 @@
         transform: scale(1.15);
     }
 
-    /* IFRAME — TELA CHEIA, SEM NADA AO REDOR! */
+    /* IFRAME — TELA CHEIA + BLOQUEIO DE RECURSOS DE ANÚNCIOS */
     .fullscreen-iframe {
         width: 100%;
         height: 100%;
         border: none;
         display: block;
         flex: 1;
+        /* Bloqueia pop-ups e janelas extras */
+        sandbox="allow-same-origin allow-scripts allow-forms allow-pointer-lock allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation";
+        referrerpolicy="no-referrer-when-downgrade";
     }
 
     /* ======================================
@@ -454,7 +457,7 @@
     </div>
   </header>
 
-  <!-- 🎮 CARROSSEL COM 8 JOGOS AGORA! -->
+  <!-- 🎮 CARROSSEL COM 8 JOGOS -->
   <div class="carousel-viewport">
     <div class="games-carousel" id="carousel">
       <div class="game-cover" data-index="0">
@@ -478,7 +481,6 @@
       <div class="game-cover" data-index="6">
         <img src="assets/images/capa-ratchet-clank.jpg" alt="Ratchet & Clank">
       </div>
-      <!-- 🆕 ROCKET GOAL.IO — NOVO JOGO ADICIONADO! -->
       <div class="game-cover" data-index="7">
         <img src="assets/images/capa-rocket-goal.jpg" alt="Rocket Goal">
       </div>
@@ -514,7 +516,7 @@
     </button>
   </div>
 
-  <!-- 🎮 MODAL TELA CHEIA — DINÂMICO PARA OS DOIS JOGOS! -->
+  <!-- 🎮 MODAL TELA CHEIA COM BLOQUEIO DE ANÚNCIOS -->
   <div class="game-modal" id="game-modal">
     <button class="close-btn" id="close-modal-btn">×</button>
     <iframe 
@@ -527,7 +529,7 @@
     </iframe>
   </div>
 
-  <!-- 📊 INFO LADO DIREITO — FICA TUDO PARADO -->
+  <!-- 📊 INFO LADO DIREITO -->
   <div class="side-info">
     <div class="game-card">
       <img src="assets/images/capa-dirt5.jpg" alt="DIRT 5" id="side-cover">
@@ -563,7 +565,7 @@
     atualizarHoraCaceres();
     setInterval(atualizarHoraCaceres, 60000);
 
-    // 🎮 DADOS DOS 8 JOGOS — ROCKET GOAL ADICIONADO!
+    // 🎮 DADOS DOS 8 JOGOS
     const jogos = [
         { nome: "Demon's Souls™ | PS5", fundo: "assets/images/fundo-demons-souls.jpg", capa: "assets/images/capa-demons-souls.jpg", progresso: "12%", conquistas: "8/48" },
         { nome: "Like a Dragon™ | PS5", fundo: "assets/images/fundo-like-a-dragon.jpg", capa: "assets/images/capa-like-a-dragon.jpg", progresso: "45%", conquistas: "15/35" },
@@ -572,7 +574,6 @@
         { nome: "Marvel's Spider-Man™ | PS5", fundo: "assets/images/fundo-spider-man.jpg", capa: "assets/images/capa-spider-man.jpg", progresso: "32%", conquistas: "12/42", iframeUrl: "https://jogos101.com/g/spider-man-web-shooter/embed" },
         { nome: "Horizon Forbidden West™ | PS5", fundo: "assets/images/fundo-horizon.jpg", capa: "assets/images/capa-horizon.jpg", progresso: "55%", conquistas: "18/58" },
         { nome: "Ratchet & Clank™ | PS5", fundo: "assets/images/fundo-ratchet-clank.jpg", capa: "assets/images/capa-ratchet-clank.jpg", progresso: "20%", conquistas: "7/32" },
-        // 🆕 ROCKET GOAL.IO
         { nome: "Rocket Goal.io | Jogo", fundo: "assets/images/fundo-rocket-goal.jpg", capa: "assets/images/capa-rocket-goal.jpg", progresso: "—", conquistas: "—", iframeUrl: "https://rocketgoal.io" }
     ];
 
@@ -588,24 +589,21 @@
     const closeBtn = document.getElementById('close-modal-btn');
     const gameIframe = document.getElementById('game-iframe');
     
-    let currentIndex = 2; // Começa no DIRT 5
+    let currentIndex = 2;
 
-    // 📐 CALCULA QUANTO MOVER SÓ O CARROSSEL
+    // 📐 CALCULA DESLOCAMENTO
     function calcularDeslocamento() {
         const capaLargura = covers[0].offsetWidth + 20;
-        const deslocamento = 50 - (currentIndex * capaLargura);
-        return deslocamento;
+        return 50 - (currentIndex * capaLargura);
     }
 
-    // 🔄 ATUALIZA — SÓ O CARROSSEL SE MOVE!
+    // 🔄 ATUALIZA CARROSSEL
     function atualizarCarrossel() {
         covers.forEach((cover, i) => {
             cover.classList.remove('active');
             if (i === currentIndex) cover.classList.add('active');
         });
-
         carousel.style.transform = `translateX(${calcularDeslocamento()}px)`;
-
         const jogo = jogos[currentIndex];
         gameBg.style.backgroundImage = `url('${jogo.fundo}')`;
         gameTitle.textContent = jogo.nome;
@@ -622,16 +620,22 @@
         });
     });
 
-    // ▶️ BOTÃO JOGAR — ABRE O IFRAME DO JOGO SE TIVER!
+    // ▶️ BOTÃO JOGAR — ABRIR COM BLOQUEIO DE ANÚNCIOS
     playBtn.addEventListener('click', () => {
         const jogoAtual = jogos[currentIndex];
         if (jogoAtual.iframeUrl) {
-            // ✅ Tem iframe → abre o jogo em TELA CHEIA!
-            gameIframe.src = jogoAtual.iframeUrl;
+            // ✅ Adiciona parâmetros para evitar anúncios
+            let urlSemAnuncios = jogoAtual.iframeUrl;
+            // Adiciona parâmetros comuns para remover anúncios
+            if (urlSemAnuncios.includes('?')) {
+                urlSemAnuncios += '&noads=1&ad=0&ads=false&disable_ads=1';
+            } else {
+                urlSemAnuncios += '?noads=1&ad=0&ads=false&disable_ads=1';
+            }
+            gameIframe.src = urlSemAnuncios;
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
         } else {
-            // ⏹️ Sem iframe → mostra mensagem
             alert(`Iniciando ${jogoAtual.nome}...`);
         }
     });
@@ -640,7 +644,7 @@
     closeBtn.addEventListener('click', () => {
         modal.classList.remove('active');
         document.body.style.overflow = '';
-        gameIframe.src = ""; // Para o jogo ao fechar
+        gameIframe.src = "";
     });
 
     // ⬅️➡️ DESLIZAR NO CELULAR
@@ -657,7 +661,7 @@
         }
     });
 
-    // ⌨️ SETAS + ESC para fechar
+    // ⌨️ SETAS + ESC
     document.addEventListener('keydown', e => {
         if (e.key === 'ArrowRight') {
             currentIndex = (currentIndex + 1) % jogos.length;
@@ -677,4 +681,3 @@
 
 </body>
 </html>
-
