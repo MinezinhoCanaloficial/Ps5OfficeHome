@@ -354,14 +354,12 @@
         transform: scale(1.15);
     }
 
-    /* ✅ IFRAME — TOTALMENTE LIMPO, SEM MARCA DO YOUTUBE */
     .fullscreen-iframe {
         width: 100%;
         height: 100%;
         border: none;
         display: block;
         flex: 1;
-        /* Bloqueia clique para abrir no YouTube */
         allow="autoplay; fullscreen; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
         sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox";
     }
@@ -459,6 +457,10 @@
       <div class="game-cover" data-index="8">
         <img src="assets/images/capa-gta-v.jpg" alt="GTA V">
       </div>
+      <!-- 🆕 FIVE NIGHTS AT FREDDY'S -->
+      <div class="game-cover" data-index="9">
+        <img src="assets/images/capa-fnaf.jpg" alt="Five Nights At Freddy's">
+      </div>
     </div>
   </div>
 
@@ -544,7 +546,6 @@
         { nome: "Horizon Forbidden West™ | PS5", fundo: "assets/images/fundo-horizon.jpg", capa: "assets/images/capa-horizon.jpg", progresso: "55%", conquistas: "18/58" },
         { nome: "Ratchet & Clank™ | PS5", fundo: "assets/images/fundo-ratchet-clank.jpg", capa: "assets/images/capa-ratchet-clank.jpg", progresso: "20%", conquistas: "7/32" },
         { nome: "Rocket Goal.io | Jogo", fundo: "assets/images/fundo-rocket-goal.jpg", capa: "assets/images/capa-rocket-goal.jpg", progresso: "—", conquistas: "—", iframeUrl: "https://rocketgoal.io" },
-        // ✅ GTA V — VÍDEO LIMPO, SEM MARCA DO YOUTUBE!
         { 
           nome: "Grand Theft Auto V™ | PS5", 
           fundo: "assets/images/fundo-gta-v.jpg", 
@@ -552,6 +553,15 @@
           progresso: "—", 
           conquistas: "—", 
           iframeUrl: "https://www.youtube.com/embed/UWzV0AFXukI?autoplay=1&rel=0&modestbranding=1&showinfo=0&controls=1&disablekb=1&fs=1&iv_load_policy=3" 
+        },
+        // 🆕 FIVE NIGHTS AT FREDDY'S
+        { 
+          nome: "Five Nights At Freddy's™ | Jogo", 
+          fundo: "assets/images/fundo-fnaf.jpg", 
+          capa: "assets/images/capa-fnaf.jpg", 
+          progresso: "—", 
+          conquistas: "—", 
+          iframeUrl: "https://fivenightsatfreddys-fnaf.io/fnaf-1-unblocked/" 
         }
     ];
 
@@ -598,7 +608,6 @@
     playBtn.addEventListener('click', () => {
         const jogoAtual = jogos[currentIndex];
         if (jogoAtual.iframeUrl) {
-            // ✅ Carrega o vídeo limpo — sem marca do YouTube
             gameIframe.src = jogoAtual.iframeUrl;
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
