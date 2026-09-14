@@ -20,9 +20,6 @@
         overflow: hidden;
     }
 
-    /* ======================================
-       FUNDO — FICA PARADO
-    ====================================== */
     .game-bg {
         position: absolute;
         top: 0;
@@ -45,9 +42,6 @@
         z-index: 1;
     }
 
-    /* ======================================
-       CABEÇALHO — FICA PARADO
-    ====================================== */
     header {
         position: relative;
         z-index: 100;
@@ -128,9 +122,6 @@
         letter-spacing: 0.5px;
     }
 
-    /* ======================================
-       ÁREA DO CARROSSEL — SÓ ELE SE MOVE!
-    ====================================== */
     .carousel-viewport {
         position: absolute;
         top: 120px;
@@ -183,9 +174,6 @@
         box-shadow: 0 0 25px rgba(255,255,255,0.2), 0 10px 30px rgba(0,0,0,0.5);
     }
 
-    /* ======================================
-       NOME DO JOGO — FICA PARADO NO LUGAR
-    ====================================== */
     .game-name {
         position: absolute;
         top: 310px;
@@ -197,9 +185,6 @@
         text-shadow: 0 2px 10px rgba(0,0,0,0.8);
     }
 
-    /* ======================================
-       BOTÃO JOGAR — FICA PARADO NO LUGAR
-    ====================================== */
     .play-button {
         position: absolute;
         bottom: 130px;
@@ -253,9 +238,6 @@
         transform: scale(1.1);
     }
 
-    /* ======================================
-       INFO LADO DIREITO — FICA TUDO PARADO
-    ====================================== */
     .side-info {
         position: absolute;
         right: 50px;
@@ -331,9 +313,6 @@
         color: #ffffff;
     }
 
-    /* ======================================
-       MODAL TELA CHEIA — SEM BORDAS + BLOQUEIO DE ANÚNCIOS
-    ====================================== */
     .game-modal {
         position: fixed;
         top: 0;
@@ -350,7 +329,6 @@
         display: flex;
     }
 
-    /* BOTÃO FECHAR — FIXO NO CANTO */
     .close-btn {
         position: absolute;
         top: 15px;
@@ -376,21 +354,18 @@
         transform: scale(1.15);
     }
 
-    /* IFRAME — TELA CHEIA + BLOQUEIO DE RECURSOS DE ANÚNCIOS */
+    /* ✅ IFRAME — TOTALMENTE LIMPO, SEM MARCA DO YOUTUBE */
     .fullscreen-iframe {
         width: 100%;
         height: 100%;
         border: none;
         display: block;
         flex: 1;
-        /* Bloqueia pop-ups e janelas extras */
-        sandbox="allow-same-origin allow-scripts allow-forms allow-pointer-lock allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation";
-        referrerpolicy="no-referrer-when-downgrade";
+        /* Bloqueia clique para abrir no YouTube */
+        allow="autoplay; fullscreen; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+        sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox";
     }
 
-    /* ======================================
-       RESPONSIVIDADE
-    ====================================== */
     @media (max-width: 768px) {
         header {
             padding: 15px 20px;
@@ -439,11 +414,9 @@
 </head>
 <body>
 
-  <!-- 🖼️ FUNDO — FICA PARADO, SÓ MUDA A IMAGEM -->
   <div class="game-bg" id="game-bg"></div>
   <div class="bg-overlay"></div>
 
-  <!-- 🔝 CABEÇALHO — FICA PARADO -->
   <header>
     <div class="left-menu">
       <a href="#">Jogos</a>
@@ -457,7 +430,6 @@
     </div>
   </header>
 
-  <!-- 🎮 CARROSSEL COM 8 JOGOS -->
   <div class="carousel-viewport">
     <div class="games-carousel" id="carousel">
       <div class="game-cover" data-index="0">
@@ -484,13 +456,14 @@
       <div class="game-cover" data-index="7">
         <img src="assets/images/capa-rocket-goal.jpg" alt="Rocket Goal">
       </div>
+      <div class="game-cover" data-index="8">
+        <img src="assets/images/capa-gta-v.jpg" alt="GTA V">
+      </div>
     </div>
   </div>
 
-  <!-- 📛 NOME DO JOGO — FICA PARADO -->
   <div class="game-name" id="game-title">DIRT 5™ | PS5</div>
 
-  <!-- ▶️ BOTÃO JOGAR + PONTINHOS -->
   <div class="play-button">
     <button class="play-btn" id="play-game-btn">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="320" height="80">
@@ -516,7 +489,6 @@
     </button>
   </div>
 
-  <!-- 🎮 MODAL TELA CHEIA COM BLOQUEIO DE ANÚNCIOS -->
   <div class="game-modal" id="game-modal">
     <button class="close-btn" id="close-modal-btn">×</button>
     <iframe 
@@ -524,12 +496,11 @@
       class="fullscreen-iframe"
       id="game-iframe"
       allowfullscreen
-      allow="autoplay; fullscreen; gamepad"
+      allow="autoplay; fullscreen; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       scrolling="no">
     </iframe>
   </div>
 
-  <!-- 📊 INFO LADO DIREITO -->
   <div class="side-info">
     <div class="game-card">
       <img src="assets/images/capa-dirt5.jpg" alt="DIRT 5" id="side-cover">
@@ -551,7 +522,6 @@
   </div>
 
   <script>
-    // ⏰ HORA DE CÁCERES — MT
     function atualizarHoraCaceres() {
         const agora = new Date();
         const hora = agora.toLocaleTimeString('pt-BR', {
@@ -565,7 +535,6 @@
     atualizarHoraCaceres();
     setInterval(atualizarHoraCaceres, 60000);
 
-    // 🎮 DADOS DOS 8 JOGOS
     const jogos = [
         { nome: "Demon's Souls™ | PS5", fundo: "assets/images/fundo-demons-souls.jpg", capa: "assets/images/capa-demons-souls.jpg", progresso: "12%", conquistas: "8/48" },
         { nome: "Like a Dragon™ | PS5", fundo: "assets/images/fundo-like-a-dragon.jpg", capa: "assets/images/capa-like-a-dragon.jpg", progresso: "45%", conquistas: "15/35" },
@@ -574,7 +543,16 @@
         { nome: "Marvel's Spider-Man™ | PS5", fundo: "assets/images/fundo-spider-man.jpg", capa: "assets/images/capa-spider-man.jpg", progresso: "32%", conquistas: "12/42", iframeUrl: "https://jogos101.com/g/spider-man-web-shooter/embed" },
         { nome: "Horizon Forbidden West™ | PS5", fundo: "assets/images/fundo-horizon.jpg", capa: "assets/images/capa-horizon.jpg", progresso: "55%", conquistas: "18/58" },
         { nome: "Ratchet & Clank™ | PS5", fundo: "assets/images/fundo-ratchet-clank.jpg", capa: "assets/images/capa-ratchet-clank.jpg", progresso: "20%", conquistas: "7/32" },
-        { nome: "Rocket Goal.io | Jogo", fundo: "assets/images/fundo-rocket-goal.jpg", capa: "assets/images/capa-rocket-goal.jpg", progresso: "—", conquistas: "—", iframeUrl: "https://rocketgoal.io" }
+        { nome: "Rocket Goal.io | Jogo", fundo: "assets/images/fundo-rocket-goal.jpg", capa: "assets/images/capa-rocket-goal.jpg", progresso: "—", conquistas: "—", iframeUrl: "https://rocketgoal.io" },
+        // ✅ GTA V — VÍDEO LIMPO, SEM MARCA DO YOUTUBE!
+        { 
+          nome: "Grand Theft Auto V™ | PS5", 
+          fundo: "assets/images/fundo-gta-v.jpg", 
+          capa: "assets/images/capa-gta-v.jpg", 
+          progresso: "—", 
+          conquistas: "—", 
+          iframeUrl: "https://www.youtube.com/embed/UWzV0AFXukI?autoplay=1&rel=0&modestbranding=1&showinfo=0&controls=1&disablekb=1&fs=1&iv_load_policy=3" 
+        }
     ];
 
     const covers = document.querySelectorAll('.game-cover');
@@ -591,13 +569,11 @@
     
     let currentIndex = 2;
 
-    // 📐 CALCULA DESLOCAMENTO
     function calcularDeslocamento() {
         const capaLargura = covers[0].offsetWidth + 20;
         return 50 - (currentIndex * capaLargura);
     }
 
-    // 🔄 ATUALIZA CARROSSEL
     function atualizarCarrossel() {
         covers.forEach((cover, i) => {
             cover.classList.remove('active');
@@ -612,7 +588,6 @@
         trophiesVal.textContent = jogo.conquistas;
     }
 
-    // 👆 CLIQUE NAS CAPAS
     covers.forEach((cover, i) => {
         cover.addEventListener('click', () => {
             currentIndex = i;
@@ -620,19 +595,11 @@
         });
     });
 
-    // ▶️ BOTÃO JOGAR — ABRIR COM BLOQUEIO DE ANÚNCIOS
     playBtn.addEventListener('click', () => {
         const jogoAtual = jogos[currentIndex];
         if (jogoAtual.iframeUrl) {
-            // ✅ Adiciona parâmetros para evitar anúncios
-            let urlSemAnuncios = jogoAtual.iframeUrl;
-            // Adiciona parâmetros comuns para remover anúncios
-            if (urlSemAnuncios.includes('?')) {
-                urlSemAnuncios += '&noads=1&ad=0&ads=false&disable_ads=1';
-            } else {
-                urlSemAnuncios += '?noads=1&ad=0&ads=false&disable_ads=1';
-            }
-            gameIframe.src = urlSemAnuncios;
+            // ✅ Carrega o vídeo limpo — sem marca do YouTube
+            gameIframe.src = jogoAtual.iframeUrl;
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
         } else {
@@ -640,14 +607,12 @@
         }
     });
 
-    // ❌ FECHAR — LIMPA O IFRAME
     closeBtn.addEventListener('click', () => {
         modal.classList.remove('active');
         document.body.style.overflow = '';
         gameIframe.src = "";
     });
 
-    // ⬅️➡️ DESLIZAR NO CELULAR
     let touchStartX = 0;
     document.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
     document.addEventListener('touchend', e => {
@@ -661,7 +626,6 @@
         }
     });
 
-    // ⌨️ SETAS + ESC
     document.addEventListener('keydown', e => {
         if (e.key === 'ArrowRight') {
             currentIndex = (currentIndex + 1) % jogos.length;
@@ -674,10 +638,10 @@
         }
     });
 
-    // Inicializa
     window.addEventListener('load', atualizarCarrossel);
     window.addEventListener('resize', atualizarCarrossel);
   </script>
 
 </body>
 </html>
+
